@@ -1,0 +1,5 @@
+.terraform/*
+hosts-worker.txt
+hosts.txt
+variables.tf
+variables.tfe

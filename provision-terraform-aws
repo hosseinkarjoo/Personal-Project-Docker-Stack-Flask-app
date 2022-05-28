@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+read -p 'access_key: ' AK
+read -p 'secret_key: ' SK
+
+export ACCESS_KEY=$(echo $AK)
+export SECRET_KEY=$(echo $SK)
+cat ./aws-template-creds > ~/.aws/credentials
+cat ./variables-tmp > ./variables.tf
+sed -ie "s/ACCESS_KEY/$AK/g" ~/.aws/credentials
+sed -ie "s|SECRET_KEY|$SK|g"  ~/.aws/credentials
+sed -ie "s/ACCESS_KEY/$AK/g" ./variables.tf
+sed -ie "s|SECRET_KEY|$SK|g" ./variables.tf
+terraform apply -auto-approve
+
+
+
+
