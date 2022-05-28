@@ -3,7 +3,7 @@ services:
     devops-training-api:
         container_name: devops-training-api
  #       build: ./api/
-        image: ${nexusRegapi}:${BUILD_NUMBER}
+        image: ${regAddr}/api:latest
         env_file:
             - ./api/env
         ports: 
@@ -22,7 +22,7 @@ services:
     devops-training-app:
         container_name: devops-training-app
 #        build: ./app/
-        image: ${nexusRegapp}:${BUILD_NUMBER}
+        image: ${regAddr}/app:latest
         ports:
             - '80:5000'
         networks:
@@ -31,7 +31,7 @@ services:
     devops-training-db:
         container_name: devops-training-db
  #      build: ./db/
-        image: ${nexusRegdb}:${BUILD_NUMBER}
+        image: ${regAddr}/db:latest
         networks:
             - main-net
         volumes:
