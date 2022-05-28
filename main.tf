@@ -13,38 +13,38 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-resource "aws_vpc" "main_VPC" {
+resource "aws_vpc" "my-vpc" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "Jenkins_test"
+    Name = "my-vpc"
   }
 }
 
-resource "aws_internet_gateway" "igw-jenkins" {
-  vpc_id = aws_vpc.main_VPC.id
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.my-vpc.id
 }
 
-resource "aws_route_table" "main-table" {
-  vpc_id = aws_vpc.main_VPC.id
+resource "aws_route_table" "rt" {
+  vpc_id = aws_vpc.my-vpc.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw-jenkins.id
+    gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "main-table-jenkins"
+    Name = "rt"
   }
 }
 
 resource "aws_main_route_table_association" "default" {
-  vpc_id         = aws_vpc.main_VPC.id
-  route_table_id = aws_route_table.main-table.id
+  vpc_id         = aws_vpc.my-vpc.id
+  route_table_id = aws_route_table.rt.id
 }
 
-resource "aws_subnet" "jenkins_subnet" {
+resource "aws_subnet" "subnet" {
   availability_zone = "us-east-1a"
-  vpc_id = aws_vpc.main_VPC.id
+  vpc_id = aws_vpc.my-vpc.id
   cidr_block = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
@@ -53,7 +53,7 @@ resource "aws_subnet" "jenkins_subnet" {
 
 
 
-resource "aws_security_group" "sg-01" {
+resource "aws_security_group" "sg" {
   vpc_id = aws_vpc.main_VPC.id
   ingress {
     cidr_blocks = [ "0.0.0.0/0" ]
@@ -69,7 +69,7 @@ resource "aws_security_group" "sg-01" {
     cidr_blocks = ["0.0.0.0/0"]
   }
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone to access python-flask-app"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -162,113 +162,49 @@ resource "aws_security_group" "sg-01" {
 }
 
 
-resource "aws_instance" "Jenkins-Master" {
+resource "aws_instance" "Jenkins" {
   ami  = data.aws_ami.amzn-linux-ec2.id
-  instance_type = "t2.medium" 
-  key_name = aws_key_pair.sh-key-for-me.key_name
+  instance_type = "t3.medium" 
+  key_name = aws_key_pair.ssh-key.key_name
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.sg-01.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
+  vpc_security_group_ids = [aws_security_group.sg.id]
+  subnet_id = aws_subnet.subnet.id
   tags = {
-    Name = "Jenkins-Master"
+    Name = "Jenkins"
     
   }
   provisioner "local-exec" {
     command = <<-EOT
-      rm -rf hosts.txt
-      echo ${aws_instance.Jenkins-Master.public_ip} >> ./hosts.txt
+#      rm -rf hosts.txt
+      echo ${aws_instance.Jenkins.public_ip} > ./Jenkins-addr.txt
 #      echo ${aws_instance.Jenkins-Master.private_ip} >> ./hosts.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i hosts.txt -e monitoring_prv_ip=${aws_instance.Monitoring-Stack.private_ip} -e slave_prv_ip=${aws_instance.Slave-Compute.private_ip} -e logging_pub_ip=${aws_instance.Logging-Stack.public_ip} -e logging_prv_ip=${aws_instance.Logging-Stack.private_ip} ./install_jenkins.yaml
+      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Jenkins-addr.txt -e DOCKER_PRV_IP=${aws_instance.Docker-Stack.private_ip} ./install_jenkins.yaml
     EOT
   }
 
 }
-resource "aws_instance" "Slave-Compute" {
+resource "aws_instance" "Docker-Stack" {
   ami  = data.aws_ami.amzn-linux-ec2.id
-  instance_type = "t2.medium"
-  key_name = aws_key_pair.sh-key-for-me.key_name
+  instance_type = "t3.medium"
+  key_name = aws_key_pair.ssh-key.key_name
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.sg-01.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
+  vpc_security_group_ids = [aws_security_group.sg.id]
+  subnet_id = aws_subnet.subnet.id
   tags = {
-    Name  = "Slave-Compute"
+    Name  = "Docker-Stack"
   }
   provisioner "local-exec" {
     command = <<-EOT
-      rm -rf hosts-worker.txt
-      echo ${aws_instance.Slave-Compute.public_ip} >> ./hosts-worker.txt
+#      rm -rf Doc.txt
+      echo ${aws_instance.Slave-Compute.public_ip} > ./Docker-addr.txt
 #      echo ${aws_instance.Slave-Compute.private_ip} >> ./hosts-worker.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i hosts-worker.txt -e nexus_address=${aws_instance.Nexus-Registry.public_ip} -e logging_address=${aws_instance.Logging-Stack.private_ip} ./install_worker.yaml
-    EOT
-  }
-}
-
-resource "aws_instance" "Monitoring-Stack" {
-  ami  = data.aws_ami.amzn-linux-ec2.id
-  instance_type = "t2.medium"
-  key_name = aws_key_pair.sh-key-for-me.key_name
-  associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.sg-01.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
-  tags = {
-    Name = "Monitoring-Stack"
-
-  }
-  provisioner "local-exec" {
-    command = <<-EOT
-      rm -rf hosts-monitoring-stack.txt
-      echo ${aws_instance.Monitoring-Stack.public_ip} >> ./hosts-monitoring-stack.txt
-#      echo ${aws_instance.Monitoring-Stack.private_ip} >> ./hosts-monitoring-stack.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i hosts-monitoring-stack.txt -e nexus_address=${aws_instance.Nexus-Registry.public_ip} -e logging_address=${aws_instance.Logging-Stack.private_ip}  ./install_worker.yaml
+      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Docker-addr.txt ./install_worker.yaml
     EOT
   }
 }
 
 
-resource "aws_instance" "Nexus-Registry" {
-  ami  = data.aws_ami.amzn-linux-ec2.id
-  instance_type = "t2.medium"
-  key_name = aws_key_pair.sh-key-for-me.key_name
-  associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.sg-01.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
-  tags = {
-    Name = "Nexus-Registry"
-
-  }
-  provisioner "local-exec" {
-    command = <<-EOT
-      rm -rf hosts-nexus.txt
-      echo ${aws_instance.Nexus-Registry.public_ip} >> ./hosts-nexus.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i ./hosts-nexus.txt -e logging_address=${aws_instance.Logging-Stack.private_ip}  ./install_nexus.yaml
-    EOT
-  }
-}
-
-resource "aws_instance" "Logging-Stack" {
-  ami = data.aws_ami.amzn-linux-ec2.id
-  instance_type = "t2.medium" 
-  key_name = aws_key_pair.sh-key-for-me.key_name
-  associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.sg-01.id]
-  subnet_id = aws_subnet.jenkins_subnet.id
-  tags = {
-    Name = "Logging-Stack"
-  }
-  provisioner "local-exec" {
-    command = <<-EOT
-      rm -rf hosts-elastic.txt
-      echo ${aws_instance.Logging-Stack.public_ip} >> ./hosts-elastic.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i ./hosts-elastic.txt -e nexus_address=${aws_instance.Nexus-Registry.public_ip} -e logging_address=${aws_instance.Logging-Stack.private_ip}  ./install_logging.yaml
-    EOT   
-
-  }
-}
-
-
-
-
-resource "aws_key_pair" "sh-key-for-me" {
+resource "aws_key_pair" "ssh-key" {
   key_name = "My_Key"
   public_key = file("/root/.ssh/id_rsa.pub")
 }
@@ -283,38 +219,8 @@ data "aws_ami" "amzn-linux-ec2" {
 }
 
 
-resource "null_resource" "push-to-git" {
-  provisioner "local-exec" {
-    command = "/bin/bash push-to-git.sh"
-  }
-  depends_on = [aws_instance.Jenkins-Master]
-}
 
 
-#resource "aws_route53_zone" "private" {
-#  name = "hkarjoo.com"
-#  private_zone = true
-#  vpc {
-#    vpc_id = aws_vpc.main_VPC.id
-#  }
-#}
-
-#resource "aws_route53_record" "slave-compute" {
-#  zone_id = aws_route53_zone.private.id
-#  name    = "slave-compute"
-#  type    = "A"
-#  ttl     = "300"
-#  records = [aws_instance.Slave-Compute.private_ip]
-#}
-
-
-#resource "aws_route53_record" "monitoring-stack" {
-#  zone_id = aws_route53_zone.private.id
-#  name    = "monitoring-stack"
-#  type    = "A"
-#  ttl     = "300"
-#  records = [aws_instance.Monitoring-Stack.private_ip]
-#}
 
 
 
