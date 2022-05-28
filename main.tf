@@ -54,7 +54,7 @@ resource "aws_subnet" "subnet" {
 
 
 resource "aws_security_group" "sg" {
-  vpc_id = aws_vpc.main_VPC.id
+  vpc_id = aws_vpc.my-vpc.id
   ingress {
     cidr_blocks = [ "0.0.0.0/0" ]
     protocol = "tcp"
@@ -145,13 +145,13 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
-    description = "elastic"
-    from_port   = 24224
-    to_port     = 24224
-    protocol    = "-1"
-    cidr_blocks = ["10.0.1.0/24"]
-  }
+#    ingress {
+#    description = "elastic"
+#    from_port   = 24224
+#    to_port     = 24224
+#    protocol    = "-1"
+#    cidr_blocks = ["10.0.1.0/24"]
+#  }
 
   egress {
     from_port   = 0
@@ -177,7 +177,6 @@ resource "aws_instance" "Jenkins" {
     command = <<-EOT
 #      rm -rf hosts.txt
       echo ${aws_instance.Jenkins.public_ip} > ./Jenkins-addr.txt
-#      echo ${aws_instance.Jenkins-Master.private_ip} >> ./hosts.txt
       aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Jenkins-addr.txt -e DOCKER_PRV_IP=${aws_instance.Docker-Stack.private_ip} ./install_jenkins.yaml
     EOT
   }
@@ -196,8 +195,7 @@ resource "aws_instance" "Docker-Stack" {
   provisioner "local-exec" {
     command = <<-EOT
 #      rm -rf Doc.txt
-      echo ${aws_instance.Slave-Compute.public_ip} > ./Docker-addr.txt
-#      echo ${aws_instance.Slave-Compute.private_ip} >> ./hosts-worker.txt
+      echo ${aws_instance.Docker-Stack.public_ip} > ./Docker-addr.txt
       aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Docker-addr.txt ./install_worker.yaml
     EOT
   }

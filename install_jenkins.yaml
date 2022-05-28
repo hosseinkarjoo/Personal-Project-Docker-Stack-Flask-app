@@ -37,57 +37,57 @@
         name: jenkins
         state: present
 
-    - name: Temporarily Stop Jenkins
-      service: 
-        name: jenkins 
-        state: stopped
+#    - name: Temporarily Stop Jenkins
+#      service: 
+#        name: jenkins 
+#        state: stopped
    
-    - name: Delete Jenkins default dir
-      file:
-        state: absent
-        path: /var/lib/jenkins
+#    - name: Delete Jenkins default dir
+#      file:
+#        state: absent
+#        path: /var/lib/jenkins
    
-    - name: Copy over cloned Jenkins /var/lib/jenkins
-      copy:
-        src: /tmp/jenkins-template/jenkins.tar.gz
-        dest: /tmp/
+#    - name: Copy over cloned Jenkins /var/lib/jenkins
+#      copy:
+#        src: /tmp/jenkins-template/jenkins.tar.gz
+#        dest: /tmp/
 
-    - name : create jenkins dir
-      file: 
-        path: /var/lib/jenkins
-        state: directory
+#    - name : create jenkins dir
+#      file: 
+#        path: /var/lib/jenkins
+#        state: directory
 
-    - name: unarchive
-      unarchive:
-        src: /tmp/jenkins.tar.gz
-        dest: /var/lib/jenkins
-        remote_src: true
+#    - name: unarchive
+#      unarchive:
+#        src: /tmp/jenkins.tar.gz
+#        dest: /var/lib/jenkins
+#        remote_src: true
         
          
-    - name: Restore jenkins user ownership on /var/lib/jenkins
-      file:
-        path: /var/lib/jenkins
-        state: directory
-        recurse: yes
-        owner: jenkins
+#    - name: Restore jenkins user ownership on /var/lib/jenkins
+#      file:
+#        path: /var/lib/jenkins
+#        state: directory
+#        recurse: yes
+#        owner: jenkins
 
-    - name: change host ip config.xml
-      replace:
-        path: /var/lib/jenkins/nodes/Monitoring-Stack/config.xml
-        regexp: 'monitoring-stack.hkarjoo.com'
-        replace: "{{ monitoring_prv_ip }}"
+#    - name: change host ip config.xml
+#      replace:
+#        path: /var/lib/jenkins/nodes/Monitoring-Stack/config.xml
+#        regexp: 'monitoring-stack.hkarjoo.com'
+#        replace: "{{ monitoring_prv_ip }}"
 
-    - name: replace host with ip
-      replace: 
-        path: /var/lib/jenkins/nodes/Slave-Compute/config.xml
-        regexp: 'slave-compute.hkarjoo.com'
-        replace: "{{ slave_prv_ip }}"
+#    - name: replace host with ip
+#      replace: 
+#        path: /var/lib/jenkins/nodes/Slave-Compute/config.xml
+#        regexp: 'slave-compute.hkarjoo.com'
+#        replace: "{{ slave_prv_ip }}"
 
-    - name: replace host with ip
-      replace:
-        path: /var/lib/jenkins/nodes/logging/config.xml
-        regexp: 'logging-stack.hkarjoo.com'
-        replace: "{{ logging_prv_ip }}"   
+#    - name: replace host with ip
+#      replace:
+#        path: /var/lib/jenkins/nodes/logging/config.xml
+#        regexp: 'logging-stack.hkarjoo.com'
+#        replace: "{{ logging_prv_ip }}"   
 
     - name: Start Jenkins
       service:

@@ -84,17 +84,17 @@
         src: ./daemon.json
         dest: /etc/docker/daemon.json
 
-    - name: change regitsry address
-      replace:
-        path: /etc/docker/daemon.json
-        regexp: 'c4df90f5fc3c.mylabserver.com'
-        replace: "{{ nexus_address }}"
+#    - name: change regitsry address
+#      replace:
+#        path: /etc/docker/daemon.json
+#        regexp: 'c4df90f5fc3c.mylabserver.com'
+#        replace: "{{ nexus_address }}"
 
-    - name: change regitsry address
-      replace:
-        path: /etc/docker/daemon.json
-        regexp: 'fluentdhost'
-        replace: "{{ logging_address }}"
+#    - name: change regitsry address
+#      replace:
+#        path: /etc/docker/daemon.json
+#        regexp: 'fluentdhost'
+#        replace: "{{ logging_address }}"
 
 
     - name: restart systemd
