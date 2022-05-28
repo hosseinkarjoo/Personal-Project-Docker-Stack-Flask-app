@@ -1,0 +1,59 @@
+version: '3.9'
+services:
+    devops-training-api:
+        container_name: devops-training-api
+ #       build: ./api/
+        image: ${nexusRegapi}:${BUILD_NUMBER}
+        env_file:
+            - ./api/env
+        ports: 
+            - '8080:5001'
+        networks:
+            - main-net
+
+    devops-training-redis:
+        container_name: devops-training-redis
+        image: redis
+        networks:
+            - main-net
+                
+
+
+    devops-training-app:
+        container_name: devops-training-app
+#        build: ./app/
+        image: ${nexusRegapp}:${BUILD_NUMBER}
+        ports:
+            - '80:5000'
+        networks:
+            - main-net
+
+    devops-training-db:
+        container_name: devops-training-db
+ #      build: ./db/
+        image: ${nexusRegdb}:${BUILD_NUMBER}
+        networks:
+            - main-net
+        volumes:
+            - mysqldb:/var/lib/mysql
+            
+    devops-training-db-exporter:
+        container_name: devops-training-db-exporter
+        networks:
+            - main-net
+        image: prom/mysqld-exporter
+        ports:
+            - '9104:9104'
+        environment:
+            - DATA_SOURCE_NAME="exporter:123qwerR@(port:3306)
+
+
+
+networks:
+    main-net:
+        driver: overlay
+        attachable: true
+
+
+volumes:
+    mysqldb:
