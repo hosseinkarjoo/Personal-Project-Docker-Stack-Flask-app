@@ -196,7 +196,7 @@ resource "aws_instance" "Docker-Stack" {
     command = <<-EOT
 #      rm -rf Doc.txt
       echo ${aws_instance.Docker-Stack.public_ip} > ./Docker-addr.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Docker-addr.txt ./install_worker.yaml
+      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Docker-addr.txt -e ${aws_ecr_repository.app.address} -e ${aws_ecr_repository.api.address} -e ${aws_ecr_repository.db.address} ./install_worker.yaml
     EOT
   }
 }
@@ -216,9 +216,17 @@ data "aws_ami" "amzn-linux-ec2" {
   }
 }
 
+resource "aws_ecr_repository" "api" {
+  name = "api"
+}
 
+resource "aws_ecr_repository" "db" {
+  name = "db"
+}
 
-
+resource "aws_ecr_repository" "app" {
+  name = "app"
+}
 
 
 
