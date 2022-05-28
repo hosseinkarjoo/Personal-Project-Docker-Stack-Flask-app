@@ -1,19 +1,16 @@
 pipeline {
     environment {
-        nexusRegapp = "54.167.29.25:8082/devops-training-app"
-        nexusRegdb = "54.167.29.25:8082/devops-training-db"
-        nexusRegapi = "54.167.29.25:8082/devops-training-api"
-        nexusReg = "54.167.29.25:8082"
+        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
     }
     agent {
         node {
-            label 'prod-stage'
+            label 'prod'
         }
     }
     stages {
         stage('Clone Git Project') {
             steps {
-                git url: 'https://github.com/hosseinkarjoo/DevOps-Training-Full-Deployment.git', branch: 'project-compose', credentialsId: 'github_creds'
+                git url: 'https://github.com/hosseinkarjoo/Personal-Project-Docker-Stack-Flask-app.git', branch: 'master'
             }
         }
         stage ('image cleanup') {
@@ -39,7 +36,6 @@ pipeline {
             steps {
                 script {
 //                    withCredentials([usernamePassword(credentialsId: 'nexusReg-Creds', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    sh'docker login -u "admin" -p "123@qwer" http://${nexusReg}/repository/docker-reg'
                     sh 'docker-compose push'
 //                    }
                     
