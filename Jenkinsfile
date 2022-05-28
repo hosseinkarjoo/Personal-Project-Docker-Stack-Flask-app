@@ -1,8 +1,7 @@
 pipeline {
     environment {
 //        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
-        load "$JENKINS_HOME/outputs"
-        echo '${regAddr}'
+        regAddr = readFile './outputs'
     }
     agent {
         node {
