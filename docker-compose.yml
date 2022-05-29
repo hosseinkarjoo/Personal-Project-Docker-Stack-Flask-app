@@ -9,13 +9,13 @@ services:
         ports: 
             - '8080:5001'
         networks:
-            - fask_app_main-net
+            - main-net
 
     redis:
         container_name: redis
         image: redis
         networks:
-            - fask_app_main-net
+            - main-net
                 
 
 
@@ -26,14 +26,14 @@ services:
         ports:
             - '80:5000'
         networks:
-            - fask_app_main-net
+            - ain-net
 
     db:
         container_name: db
         build: ./db/
         image: ${regAddr}/db:${BUILD_NUMBER}
         networks:
-            - fask_app_main-net
+            - main-net
         volumes:
             - mysqldb:/var/lib/mysql
 
