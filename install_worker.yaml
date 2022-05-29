@@ -142,11 +142,15 @@
       shell: aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
     - name: login to ECR to pus images
       shell:  aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
+    - name: remove \n
+      shell:  |
+        printf `cat ./outputs` > outputs
+        printf `cat ./Docker-Addr.txt` > Docker-Addr.txt
     - name: copy  vars
       copy:
         src: ./outputs
         dest: /tmp/outputs
-        - name: copy  vars
+    - name: copy  vars
       copy:
         src: ./Docker-Addr.txt
         dest: /tmp/Docker-Addr.txt
