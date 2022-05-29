@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    environment:
+      - 'discovery.type=single-node'
+      - 'ES_JAVA_OPTS=-Xmx256m -Xms256m'
+      - 'ELASTIC_PASSWORD=123@qwer'
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      
+      
+  kibana:
+    image: kibana:7.6.2
+    container_name: kibana
+    ports:
+      - '80:5601'
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+#    environment:
+#      - 'ELASTICSEARCH_HOSTS=http://ek_elasticsearch:9200'
+#      - 'KIBANA_PASSWORD=123@qwer'
+#      - 'ELASTICSEARCH_USERNAME=elasticadmin'
+#      - 'ELASTICSEARCH_PASSWORD=123@qwer'
+
+  fluentd:
+    image: govtechsg/fluentd-elasticsearch
+    container_name: fluentd
+    volumes:
+      - ./fluent.conf:/fluentd/etc/fluent.conf
+    ports:
+      - '24224:24224'
+      - '24224:24224/udp'
