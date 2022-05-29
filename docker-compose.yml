@@ -39,9 +39,10 @@ services:
 
 
 
-#networks:
-#    main-net:
-#        driver: bridge
+networks:
+    main-net:.
+        name: main-net
+        driver: bridge
 
 volumes:
     mysqldb:
