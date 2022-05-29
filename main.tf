@@ -152,6 +152,13 @@ resource "aws_security_group" "sg" {
 #    protocol    = "-1"
 #    cidr_blocks = ["10.0.1.0/24"]
 #  }
+    ingress {
+    description = "elastic"
+    from_port   = 8001
+    to_port     = 8001
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
