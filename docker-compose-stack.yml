@@ -27,6 +27,10 @@ services:
             - '80:5000'
         networks:
             - main-net
+        logging:
+          driver: fluentd
+          options:
+            fluentd-address: ${dockerAddr}:24224
 
     devops-training-db:
         container_name: devops-training-db
