@@ -93,7 +93,7 @@
     - name: copy daeon.jsion
       copy:
         src: ./daemon.json
-        dest: /etc/docker/daemon.json
+        dest: /etc/docker/daemon-test.json
 
 #    - name: change regitsry address
 #      replace:

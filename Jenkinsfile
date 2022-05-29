@@ -107,7 +107,17 @@ pipeline {
                 }
             }
         }
-
+        stage ('test and deploy logging') {
+            steps {
+                script {
+                   if [ telnet localhost 24224 ] ; then
+                       sh 'sudo mv /etc/docker/daemon-test.json /etc/docker/daemon.json'
+                       sh 'sudo sed -ie "s/localhost/${dockerAddr}/" /etc/docker/daemon.json'
+                   else
+                       echo 'Fluent D is not running'
+                }
+            }
+        }
 //       stage ('test') {
 //           steps {
 //              script {
