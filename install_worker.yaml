@@ -120,6 +120,22 @@
     - name: chmod docker.sock
       file: path=/var/run/docker.sock mode=666
 
+    - name: make dir for aws
+      file:
+        path: ~/.aws
+        state: directory
+
+    - name: copy aws credentails
+      copy:
+        src: ~/.aws/credentials
+        dest: ~/.aws/credentials
+
+
+    - name: copy aws config
+      copy:
+        src: ~/.aws/config
+        dest: ~/.aws/config
+
     - name: login to ECR to pus images
       shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
     - name: login to ECR to pus images
