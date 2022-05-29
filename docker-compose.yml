@@ -8,14 +8,14 @@ services:
             - ./api/env
         ports: 
             - '8080:5001'
-        networks:
-            - main-net
+#        networks:
+#            - main-net
 
     redis:
         #container_name: redis
         image: redis
-        networks:
-            - main-net
+ #       networks:
+ #           - main-net
                 
 
 
@@ -25,24 +25,24 @@ services:
         image: ${regAddr}/app:${BUILD_NUMBER}
         ports:
             - '80:5000'
-        networks:
-            - main-net
+ #       networks:
+ #           - main-net
 
     db:
         #container_name: db
         build: ./db/
         image: ${regAddr}/db:${BUILD_NUMBER}
-        networks:
-            - main-net
+ #       networks:
+ #           - main-net
         volumes:
             - mysqldb:/var/lib/mysql
 
 
 
-networks:
-    main-net:
-        name: main-net
-        driver: bridge
+#networks:
+#    main-net:
+#        name: main-net
+#        driver: bridge
 
 volumes:
     mysqldb:
