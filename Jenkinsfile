@@ -39,7 +39,9 @@ pipeline {
                 script {
                     sh 'whoami'
                     sh 'ls ~/.aws'
-                    sh'aws s3 ls --profile cloud_user'
+                    sh 'aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin ${regAddr}/app'
+                    sh 'aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin ${regAddr}/api'
+                    sh 'aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin ${regAddr}/db'
                 }
             }
         }
