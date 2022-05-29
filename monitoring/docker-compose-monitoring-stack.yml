@@ -64,5 +64,5 @@ services:
 networks:
     main-net:
         name: main-net
-        driver: overlay
-        attachable: true
+        external: true
+
