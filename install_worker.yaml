@@ -122,26 +122,26 @@
 
     - name: make dir for aws
       file:
-        path: ~/.aws
+        path: /home/jenkins/.aws
         state: directory
 
     - name: copy aws credentails
       copy:
         src: ~/.aws/credentials
-        dest: ~/.aws/credentials
+        dest: /home/jenkins/.aws/credentials
 
 
     - name: copy aws config
       copy:
         src: ~/.aws/config
-        dest: ~/.aws/config
+        dest: /home/jenkins/.aws/config
 
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
+      shell: aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
+      shell: aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
+      shell:  aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
     - name: copy  vars
       copy:
         src: ./outputs
