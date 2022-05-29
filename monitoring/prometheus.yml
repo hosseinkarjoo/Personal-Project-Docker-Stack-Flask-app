@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - "MONITOR_PUB_IP:9093"
+      - "localhost:9093"
 
 scrape_configs:
 
@@ -17,7 +17,7 @@ scrape_configs:
 
     static_configs:
 
-    - targets: ['MONITOR_PUB_IP:9090']
+    - targets: ['localhost:9090']
 
       labels:
 
@@ -27,7 +27,7 @@ scrape_configs:
 
     static_configs:
 
-    - targets: ['SLAVE_PUB_IP:8081']
+    - targets: ['localhost:8081']
 
       labels:
 
@@ -37,7 +37,7 @@ scrape_configs:
 
     static_configs:
 
-    - targets: ['SLAVE_PUB_IP:9100']
+    - targets: ['localhost:9100']
 
       labels:
 
@@ -47,7 +47,7 @@ scrape_configs:
   
     static_configs:
     
-    - targets: ['SLAVE_PUB_IP:9104']
+    - targets: ['localhost:9104']
       labels:
         alias: 'mysql-Exporter'
         
