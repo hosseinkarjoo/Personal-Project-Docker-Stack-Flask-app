@@ -76,14 +76,14 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port prometheus"
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port grafana"
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
@@ -91,7 +91,7 @@ resource "aws_security_group" "sg" {
   }
 
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port api"
     from_port   = 8081
     to_port     = 8081
     protocol    = "tcp"
@@ -99,7 +99,7 @@ resource "aws_security_group" "sg" {
   }
 
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port 9100"
     from_port   = 9100
     to_port     = 9100
     protocol    = "tcp"
@@ -107,7 +107,7 @@ resource "aws_security_group" "sg" {
   }
 
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port 9104"
     from_port   = 9104
     to_port     = 9104
     protocol    = "tcp"
@@ -115,7 +115,7 @@ resource "aws_security_group" "sg" {
   }
 
     ingress {
-    description = "allow anyone on port 8080"
+    description = "allow anyone on port 8082"
     from_port   = 8082
     to_port     = 8082
     protocol    = "tcp"
@@ -153,7 +153,7 @@ resource "aws_security_group" "sg" {
 #    cidr_blocks = ["10.0.1.0/24"]
 #  }
     ingress {
-    description = "elastic"
+    description = "kibana"
     from_port   = 8001
     to_port     = 8001
     protocol    = "tcp"
