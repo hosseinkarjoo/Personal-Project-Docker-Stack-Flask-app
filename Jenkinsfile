@@ -15,22 +15,31 @@ pipeline {
                 sh'echo ${regAddr}'
             }
         }
-        stage ('image cleanup') {
-            steps {
-                script {
-                    try {
-                        sh'docker image rmi $(docker image ls -qa) --force'
-                    }
-                    catch (err) {
-                        echo: 'ERRORR'
-                    }
-                }
-            }
-        }          
+//        stage ('image cleanup') {
+ //           steps {
+  //              script {
+   //                 try {
+    //                    sh'docker image rmi $(docker image ls -qa) --force'
+     //               }
+      //              catch (err) {
+       //                 echo: 'ERRORR'
+        //            }
+         //       }
+          //  }
+       // }          
         stage ('Build') {
             steps {
                 script {
                     sh 'docker-compose build '
+                }
+            }
+        }
+        stage ('test') {
+            steps {
+                script {
+                    sh 'whoami'
+                    sh 'ls ~/.aws'
+                    sh'aws s3 ls --profile cloud_user'
                 }
             }
         }
