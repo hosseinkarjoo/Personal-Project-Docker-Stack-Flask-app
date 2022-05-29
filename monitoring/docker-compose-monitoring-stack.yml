@@ -60,3 +60,9 @@ services:
             - main-net
         volumes:
             - '/:/host:ro,rslave'
+
+networks:
+    main-net:
+        name: main-net
+        driver: overlay
+        attachable: true
