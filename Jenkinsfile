@@ -61,6 +61,7 @@ pipeline {
                 script {
                     sh 'sed -ie "s/dockerAddr/${dockerAddr}/g" ./monitoring/prometheus.yml'
                     sh 'sed -ie "s/dockerAddr/${dockerAddr}/g" ./monitoring/datasource.yml'
+                    sh 'sed -ie "s/localhost/${dockerAddr}/g" ./logging/kibana.yml'
                 }
             }
         }
@@ -102,7 +103,7 @@ pipeline {
  //                   catch (err) {
  //                       echo: 'EROR'
  //                   }
-                    sh'docker stack deploy --compose-file ./logging/docker-compose-ek.yml logging'
+                    sh'docker stack update --compose-file ./logging/docker-compose-ek.yml logging'
                 }
             }
         }
