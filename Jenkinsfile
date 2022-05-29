@@ -35,7 +35,7 @@ pipeline {
                 }
             }
         }
-        stage ('test') {
+        stage ('Login to ECR') {
             steps {
                 script {
                     sh 'whoami'
@@ -53,6 +53,14 @@ pipeline {
                     sh 'docker-compose push'
 //                    }
                     
+                }
+            }
+        }
+        stage ('provision Configs') {
+            steps {
+                script {
+                    sh 'sed -ie "s/dockerAddr/${dockerAddr}/g" ./monitoring/prometheus.yml'
+                    sh 'sed -ie "s/dockerAddr/${dockerAddr}/g" ./monitoring/datasource.yml'
                 }
             }
         }
