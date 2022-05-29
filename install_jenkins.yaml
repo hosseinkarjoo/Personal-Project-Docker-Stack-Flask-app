@@ -13,11 +13,15 @@
         - wget
         - java-1.8.0-openjdk-devel
         - git
-      
+    - name: create a tmp directory
+      file:
+        path: /tmp/jenkins-temp
+        state: directory      
+
     - name: clone repo
       git:
         repo: https://github.com/hosseinkarjoo/Personal-Project-Jenkins-template.git
-        dest: /tmp
+        dest: /tmp/jenkins-temp
 
     - name: Setup Jenkins Repo
       get_url:
@@ -49,7 +53,7 @@
   
     - name: Copy over cloned Jenkins /var/lib/jenkins
       copy:
-        src: /tmp/jenkins
+        src: /tmp/jenkins-temp/jenkins
         dest: /var/lib
         remote_src: true
 
@@ -72,11 +76,11 @@
         recurse: yes
         owner: jenkins
 
-#    - name: change host ip config.xml
-#      replace:
-#        path: /var/lib/jenkins/nodes/Monitoring-Stack/config.xml
-#        regexp: 'monitoring-stack.hkarjoo.com'
-#        replace: "{{ monitoring_prv_ip }}"
+    - name: change host ip config.xml
+      replace:
+        path: /var/lib/jenkins/nodes/Slave/config.xml
+        regexp: 'Slave-IP'
+        replace: "{{ DOCKER_STACK_ADDR }}"
 
 #    - name: replace host with ip
 #      replace: 
@@ -89,13 +93,6 @@
 #        path: /var/lib/jenkins/nodes/logging/config.xml
 #        regexp: 'logging-stack.hkarjoo.com'
 #        replace: "{{ logging_prv_ip }}"   
-    - name: shell
-      shell: sed ir "s/\/app/""/" ./outputs
-
-    - name: copy  vars
-      copy:
-        src: ./outputs
-        dest: /tmp/outputs
 
     - name: Start Jenkins
       service:

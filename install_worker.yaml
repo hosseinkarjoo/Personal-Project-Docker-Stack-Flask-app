@@ -1,4 +1,18 @@
 ---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name : shell  outputs
+      shell: |
+         sed -ie "s/\/app/""/" ./outputs
+         printf `cat outputs` > outputs
+    - name: test 
+      shell:
+        echo $PATH >> test1
+        echo $HOSTNAME >> test2
+        echo 'fuck you' >> test3
+
+
 - hosts: all
   become: yes
   remote_user: ec2-user
@@ -106,3 +120,13 @@
     - name: chmod docker.sock
       file: path=/var/run/docker.sock mode=666
 
+    - name: login to ECR to pus images
+      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
+    - name: login to ECR to pus images
+      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
+    - name: login to ECR to pus images
+      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
+    - name: copy  vars
+      copy:
+        src: ./outputs
+        dest: /tmp/outputs

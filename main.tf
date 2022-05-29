@@ -196,7 +196,7 @@ resource "aws_instance" "Docker-Stack" {
     command = <<-EOT
 #      rm -rf Doc.txt
       echo ${aws_instance.Docker-Stack.public_ip} > ./Docker-addr.txt
-      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -i Docker-addr.txt ./install_worker.yaml
+      aws ec2 wait instance-status-ok --region us-east-1 --instance-ids ${self.id} --profile cloud_user && ansible-playbook -e ECR_APP_ADDR=${aws_ecr_repository.app.repository_url} -e ECR_APi_ADDR=${aws_ecr_repository.api.repository_url} -e ECR_DB_ADDR=${aws_ecr_repository.db.repository_url} -i Docker-addr.txt ./install_worker.yaml
     EOT
   }
 }
