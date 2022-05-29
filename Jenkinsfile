@@ -92,6 +92,21 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy Logging-stack') {
+            steps {
+                script {
+//                    try {
+//                        sh'docker-compose down'
+ //                       sh'docker-compose rm --force'
+  //                  }
+ //                   catch (err) {
+ //                       echo: 'EROR'
+ //                   }
+                    sh'docker stack deploy --compose-file ./logging/docker-compose-ek.yml logging'
+                }
+            }
+        }
+
 //       stage ('test') {
 //           steps {
 //              script {
