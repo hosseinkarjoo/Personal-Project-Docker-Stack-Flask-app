@@ -14,10 +14,10 @@
         - java-1.8.0-openjdk-devel
         - git
       
-#    - name: clone repo
-#      git:
-#        repo: https://github.com/linuxacademy/content-terraform-jenkins.git
-#        dest: /tmp/jenkins
+    - name: clone repo
+      git:
+        repo: https://github.com/hosseinkarjoo/Personal-Project-Jenkins-template.git
+        dest: /tmp
 
     - name: Setup Jenkins Repo
       get_url:
@@ -37,20 +37,21 @@
         name: jenkins
         state: present
 
-#    - name: Temporarily Stop Jenkins
-#      service: 
-#        name: jenkins 
-#        state: stopped
-   
-#    - name: Delete Jenkins default dir
-#      file:
-#        state: absent
-#        path: /var/lib/jenkins
-   
-#    - name: Copy over cloned Jenkins /var/lib/jenkins
-#      copy:
-#        src: /tmp/jenkins-template/jenkins.tar.gz
-#        dest: /tmp/
+    - name: Temporarily Stop Jenkins
+      service: 
+        name: jenkins 
+        state: stopped
+  
+    - name: Delete Jenkins default dir
+      file:
+        state: absent
+        path: /var/lib/jenkins
+  
+    - name: Copy over cloned Jenkins /var/lib/jenkins
+      copy:
+        src: /tmp/jenkins
+        dest: /var/lib
+        remote_src: true
 
 #    - name : create jenkins dir
 #      file: 
@@ -64,12 +65,12 @@
 #        remote_src: true
         
          
-#    - name: Restore jenkins user ownership on /var/lib/jenkins
-#      file:
-#        path: /var/lib/jenkins
-#        state: directory
-#        recurse: yes
-#        owner: jenkins
+    - name: Restore jenkins user ownership on /var/lib/jenkins
+      file:
+        path: /var/lib/jenkins
+        state: directory
+        recurse: yes
+        owner: jenkins
 
 #    - name: change host ip config.xml
 #      replace:
@@ -88,6 +89,13 @@
 #        path: /var/lib/jenkins/nodes/logging/config.xml
 #        regexp: 'logging-stack.hkarjoo.com'
 #        replace: "{{ logging_prv_ip }}"   
+    - name: shell
+      shell: sed ir "s/\/app/""/" ./outputs
+
+    - name: copy  vars
+      copy:
+        src: ./outputs
+        dest: /tmp/outputs
 
     - name: Start Jenkins
       service:

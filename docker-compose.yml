@@ -1,0 +1,47 @@
+version: '3'
+services:
+    api:
+        container_name: devops-training-api
+        build: ./api/
+        image: ${regAddr}:${BUILD_NUMBER}
+        env_file:
+            - ./api/env
+        ports: 
+            - '8080:5001'
+        networks:
+            - main-net
+
+    redis:
+        container_name: devops-training-redis
+        image: redis
+        networks:
+            - main-net
+                
+
+
+    app:
+        container_name: devops-training-app
+        build: ./app/
+        image: ${regAddr}:${BUILD_NUMBER}
+        ports:
+            - '80:5000'
+        networks:
+            - main-net
+
+    db:
+        container_name: devops-training-db
+        build: ./db/
+        image: ${regAddr}:${BUILD_NUMBER}
+        networks:
+            - main-net
+        volumes:
+            - mysqldb:/var/lib/mysql
+
+
+
+networks:
+    main-net:
+        driver: bridge
+
+volumes:
+    mysqldb:
