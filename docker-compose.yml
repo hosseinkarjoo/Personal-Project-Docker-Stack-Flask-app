@@ -26,7 +26,7 @@ services:
         ports:
             - '80:5000'
         networks:
-            - ain-net
+            - main-net
 
     db:
         #container_name: db
