@@ -122,19 +122,19 @@
 
     - name: make dir for aws
       file:
-        path: /home/jenkins/.aws
+        path: /var/lib/jenkins/.aws
         state: directory
 
     - name: copy aws credentails
       copy:
         src: ~/.aws/credentials
-        dest: /home/jenkins/.aws/credentials
+        dest: /var/lib/jenkins/.aws/credentials
 
 
     - name: copy aws config
       copy:
         src: ~/.aws/config
-        dest: /home/jenkins/.aws/config
+        dest: /var/lib/jenkins/.aws/config
 
     - name: login to ECR to pus images
       shell: aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
