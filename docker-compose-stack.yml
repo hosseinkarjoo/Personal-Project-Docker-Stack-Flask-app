@@ -1,7 +1,7 @@
 version: '3.9'
 services:
     devops-training-api:
-        container_name: devops-training-api
+#        container_name: devops-training-api
  #       build: ./api/
         image: ${regAddr}/api:${BUILD_NUMBER}
         env_file:
@@ -12,7 +12,7 @@ services:
 #            - main-net
 
     devops-training-redis:
-        container_name: devops-training-redis
+ #       container_name: devops-training-redis
         image: redis
 #        networks:
 #            - main-net
@@ -20,7 +20,7 @@ services:
 
 
     devops-training-app:
-        container_name: devops-training-app
+#        container_name: devops-training-app
 #        build: ./app/
         image: ${regAddr}/app:${BUILD_NUMBER}
         ports:
@@ -29,7 +29,7 @@ services:
 #            - main-net
 
     devops-training-db:
-        container_name: devops-training-db
+#        container_name: devops-training-db
  #      build: ./db/
         image: ${regAddr}/db:${BUILD_NUMBER}
  #       networks:
@@ -38,7 +38,7 @@ services:
             - mysqldb:/var/lib/mysql
             
     devops-training-db-exporter:
-        container_name: devops-training-db-exporter
+  #      container_name: devops-training-db-exporter
  #       networks:
  #           - main-net
         image: prom/mysqld-exporter
