@@ -2,6 +2,7 @@ pipeline {
     environment {
 //        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
         regAddr = readFile '/tmp/outputs'
+        dockerAddr = readFile '/tmp/Docker-addr.txt'
     }
     agent {
         node {
