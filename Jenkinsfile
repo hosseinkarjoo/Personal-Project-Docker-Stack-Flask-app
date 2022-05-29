@@ -1,6 +1,7 @@
 pipeline {
     environment {
-        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
+//        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
+        regAddr = readFile '/tmp/outputs'
     }
     agent {
         node {
@@ -11,6 +12,7 @@ pipeline {
         stage('Clone Git Project') {
             steps {
                 git url: 'https://github.com/hosseinkarjoo/Personal-Project-Docker-Stack-Flask-app.git', branch: 'master'
+                sh'echo ${regAddr}'
             }
         }
         stage ('image cleanup') {

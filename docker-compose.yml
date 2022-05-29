@@ -3,7 +3,11 @@ services:
     api:
         container_name: devops-training-api
         build: ./api/
+<<<<<<< HEAD
         image: ${regAddr}:${BUILD_NUMBER}
+=======
+        image: ${regAddr}/api:${BUILD_NUMBER}
+>>>>>>> 5f1cd1aa6410d290ca2e4fc0b6e88ca2d28b2e98
         env_file:
             - ./api/env
         ports: 
@@ -22,7 +26,11 @@ services:
     app:
         container_name: devops-training-app
         build: ./app/
+<<<<<<< HEAD
         image: ${regAddr}:${BUILD_NUMBER}
+=======
+        image: ${regAddr}/app:${BUILD_NUMBER}
+>>>>>>> 5f1cd1aa6410d290ca2e4fc0b6e88ca2d28b2e98
         ports:
             - '80:5000'
         networks:
@@ -31,7 +39,11 @@ services:
     db:
         container_name: devops-training-db
         build: ./db/
+<<<<<<< HEAD
         image: ${regAddr}:${BUILD_NUMBER}
+=======
+        image: ${regAddr}/db:${BUILD_NUMBER}
+>>>>>>> 5f1cd1aa6410d290ca2e4fc0b6e88ca2d28b2e98
         networks:
             - main-net
         volumes:
