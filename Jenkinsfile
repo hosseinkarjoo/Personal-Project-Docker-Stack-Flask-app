@@ -103,7 +103,7 @@ pipeline {
  //                   catch (err) {
  //                       echo: 'EROR'
  //                   }
-                    sh'docker stack update --compose-file ./logging/docker-compose-ek.yml logging'
+                    sh'docker stack deploy --compose-file ./logging/docker-compose-ek.yml logging'
                 }
             }
         }
