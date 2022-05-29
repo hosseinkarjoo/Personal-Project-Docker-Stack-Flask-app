@@ -8,14 +8,14 @@ services:
             - ./api/env
         ports: 
             - '8080:5001'
-        networks:
-            - main-net
+#        networks:
+#            - main-net
 
     devops-training-redis:
         container_name: devops-training-redis
         image: redis
-        networks:
-            - main-net
+#        networks:
+#            - main-net
                 
 
 
@@ -25,22 +25,22 @@ services:
         image: ${regAddr}/app:${BUILD_NUMBER}
         ports:
             - '80:5000'
-        networks:
-            - main-net
+#        networks:
+#            - main-net
 
     devops-training-db:
         container_name: devops-training-db
  #      build: ./db/
         image: ${regAddr}/db:${BUILD_NUMBER}
-        networks:
-            - main-net
+ #       networks:
+ #           - main-net
         volumes:
             - mysqldb:/var/lib/mysql
             
     devops-training-db-exporter:
         container_name: devops-training-db-exporter
-        networks:
-            - main-net
+ #       networks:
+ #           - main-net
         image: prom/mysqld-exporter
         ports:
             - '9104:9104'
@@ -49,11 +49,11 @@ services:
 
 
 
-networks:
-    main-net:
-        name: main-net
-        driver: overlay
-        attachable: true
+#networks:
+#    main-net:
+#        name: main-net
+#        driver: overlay
+#        attachable: true
 
 
 volumes:
