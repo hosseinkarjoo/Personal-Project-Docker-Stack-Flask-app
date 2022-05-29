@@ -1,7 +1,7 @@
 version: '3'
 services:
     api:
-        container_name: devops-training-api
+        container_name: api
         build: ./api/
         image: ${regAddr}/api:${BUILD_NUMBER}
         env_file:
@@ -9,31 +9,31 @@ services:
         ports: 
             - '8080:5001'
         networks:
-            - main-net
+            - fask_app_main-net
 
     redis:
-        container_name: devops-training-redis
+        container_name: redis
         image: redis
         networks:
-            - main-net
+            - fask_app_main-net
                 
 
 
     app:
-        container_name: devops-training-app
+        container_name: app
         build: ./app/
         image: ${regAddr}/app:${BUILD_NUMBER}
         ports:
             - '80:5000'
         networks:
-            - main-net
+            - fask_app_main-net
 
     db:
-        container_name: devops-training-db
+        container_name: db
         build: ./db/
         image: ${regAddr}/db:${BUILD_NUMBER}
         networks:
-            - main-net
+            - fask_app_main-net
         volumes:
             - mysqldb:/var/lib/mysql
 
