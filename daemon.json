@@ -1,7 +1,6 @@
 {
-   "insecure-registries" : [ "c4df90f5fc3c.mylabserver.com:8082" ],
    "log-driver": "fluentd",
    "log-opts": {
-     "fluentd-address": "fluentdhost:24224"
+     "fluentd-address": "localhost:24224"
    }
  }

@@ -90,10 +90,10 @@
         path: /var/lib/jenkins/.ssh/authorized_keys
         line: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
 
-#    - name: copy daeon.jsion
-#      copy:
-#        src: ./daemon.json
-#        dest: /etc/docker/daemon.json
+    - name: copy daeon.jsion
+      copy:
+        src: ./daemon.json
+        dest: /etc/docker/daemon.json
 
 #    - name: change regitsry address
 #      replace:
