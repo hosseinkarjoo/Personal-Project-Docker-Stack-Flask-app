@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - 'alert.rules'
+
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - "MONITOR_PUB_IP:9093"
+
+scrape_configs:
+
+  - job_name: 'prometheus'
+
+    static_configs:
+
+    - targets: ['MONITOR_PUB_IP:9090']
+
+      labels:
+
+        alias: 'prometheus'
+
+  - job_name: 'cadvisor'
+
+    static_configs:
+
+    - targets: ['SLAVE_PUB_IP:8081']
+
+      labels:
+
+        alias: 'cadvisor'
+
+  - job_name: 'node-exporter'
+
+    static_configs:
+
+    - targets: ['SLAVE_PUB_IP:9100']
+
+      labels:
+
+        alias: 'node-exporter'
+        
+  - job_name: 'mysql-Exporter'
+  
+    static_configs:
+    
+    - targets: ['SLAVE_PUB_IP:9104']
+      labels:
+        alias: 'mysql-Exporter'
+        
+#  - job_name: 'docker'
+#    static_configs:
+#      - targets: ['SLAVE_PUB_IP:9323']

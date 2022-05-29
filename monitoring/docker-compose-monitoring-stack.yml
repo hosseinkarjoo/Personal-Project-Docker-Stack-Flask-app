@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+    prometheus:
+#        container_name: monitoring-prometheus
+        image: prom/prometheus
+        ports: 
+            - '9090:9090'
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./alert.rules:/etc/prometheus/alert.rules
+        networks:
+            - main-net
+               
+    grafana:
+#        container_name: monitoring-grafana
+        image: grafana/grafana
+        volumes:
+            - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+            - ./dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+            - ./grafana-dash.json:/etc/grafana/provisioning/dashboards/grafana-dash.json
+            - ./mysql-dash.json:/etc/grafana/provisioning/dashboards/mysql-dash.json
+        ports:
+            - '3000:3000'
+        networks:
+            - main-net
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=123@qwer
+            
+    alertmanager:
+        image: prom/alertmanager
+        volumes:
+            - ./alertmanager.yml/:/etc/alertmanager/alertmanager.yml
+        command:
+            - '--config.file=/etc/alertmanager/alertmanager.yml'
+            
+        ports:
+            - '9093:9093'
+        networks:
+            - main-net
+
+    monitoring-cadvisor:
+        container_name: monitoring-cadvisor
+        image: google/cadvisor
+        ports: 
+            - '8081:8080'
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - main-net
+               
+    monitoring-nodeexporter:
+        container_name: monitoring-nodeexporter
+        image: prom/node-exporter
+        ports:
+            - '9100:9100'
+        networks:
+            - main-net
+        volumes:
+            - '/:/host:ro,rslave'

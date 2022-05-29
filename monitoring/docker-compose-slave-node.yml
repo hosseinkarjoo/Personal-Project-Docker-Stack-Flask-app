@@ -1,0 +1,29 @@
+version: '3'
+services:
+    monitoring-cadvisor:
+        container_name: monitoring-cadvisor
+        image: google/cadvisor
+        ports: 
+            - '8081:8080'
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - main-net
+               
+    monitoring-nodeexporter:
+        container_name: monitoring-nodeexporter
+        image: prom/node-exporter
+        ports:
+            - '9100:9100'
+        networks:
+            - main-net
+        volumes:
+            - '/:/host:ro,rslave'
+
+
+networks:
+    main-net:
+        driver: bridge

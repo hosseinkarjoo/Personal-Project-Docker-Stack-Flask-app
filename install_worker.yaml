@@ -137,11 +137,11 @@
         dest: ~/.aws/config
 
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
+      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_APP_ADDR}}
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
+      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_DB_ADDR}}
     - name: login to ECR to pus images
-      shell: sudo aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
+      shell: sudo aws ecr get-login-password --region us-east-1 --profile cloud_user | sudo docker login --username AWS --password-stdin {{ECR_API_ADDR}}
     - name: copy  vars
       copy:
         src: ./outputs

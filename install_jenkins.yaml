@@ -80,7 +80,7 @@
       replace:
         path: /var/lib/jenkins/nodes/Slave/config.xml
         regexp: 'Slave-IP'
-        replace: "{{ DOCKER_STACK_ADDR }}"
+        replace: "{{ DOCKER_PRV_IP }}"
 
 #    - name: replace host with ip
 #      replace: 
