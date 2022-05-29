@@ -48,8 +48,7 @@ services:
             - DATA_SOURCE_NAME="exporter:123qwerR@(port:3306)
 
 
-
-#networks:
+networks:
     main-net:
         name: main-net
         driver: overlay
