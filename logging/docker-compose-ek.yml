@@ -20,7 +20,7 @@ services:
     image: kibana:7.6.2
     container_name: kibana
     ports:
-      - '80:5601'
+      - '8001:5601'
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
 #    environment:
