@@ -58,6 +58,20 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy to Minoting-Stack') {
+            steps {
+                script {
+//                    try {
+//                        sh'docker-compose down'
+ //                       sh'docker-compose rm --force'
+  //                  }
+ //                   catch (err) {
+ //                       echo: 'EROR'
+ //                   }
+                    sh'docker stack deploy --compose-file ./monitoring/docker-compose-monitoring-stack.yml monitoring'
+                }
+            }
+        }
 //       stage ('test') {
 //           steps {
 //              script {
