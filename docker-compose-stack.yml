@@ -45,6 +45,9 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_pass
             MYSQL_PASSWORD_FILE: /run/secrets/db_pass
+        secrets:
+            - db_pass
+            
     devops-training-db-exporter:
         container_name: devops-training-db-exporter
         networks:
@@ -54,6 +57,7 @@ services:
             - '9104:9104'
         environment:
             - DATA_SOURCE_NAME="exporter:123qwerR@(port:3306)
+         
 
 
 networks:
