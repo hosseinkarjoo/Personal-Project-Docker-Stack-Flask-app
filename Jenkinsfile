@@ -19,7 +19,7 @@ pipeline {
                 sh'echo ${regAddr}'
             }
         }
-        stage ('create secrets')
+        stage ('create secrets') {
             steps {
                 sh'printf $db_pass | docker secret create db_pass -'     
                 sh'printf $grafana_pass | docker secret create grafana_pass -'
