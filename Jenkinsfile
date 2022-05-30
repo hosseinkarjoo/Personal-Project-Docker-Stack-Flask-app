@@ -4,7 +4,7 @@ pipeline {
         regAddr = readFile '/tmp/outputs'
         dockerAddr = readFile '/tmp/Docker-addr.txt'
         db_pass = readFile '/tmp/db_pass'
-        grafan_pass = readFile '/tmp/grafana_pass'
+        grafana_pass = readFile '/tmp/grafana_pass'
         elastic_pass = readFile '/tmp/elastic_pass'
     }
     agent {
