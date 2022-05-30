@@ -24,7 +24,7 @@ services:
         networks:
             - main-net
         environment:
-            - GF_SECURITY_ADMIN_PASSWORD=123@qwer
+            - GF_SECURITY_ADMIN_PASSWORD=${grafana_pass}
             
     alertmanager:
         image: prom/alertmanager
