@@ -10,7 +10,10 @@ sed -ie "s/ACCESS_KEY/$AK/g" ~/.aws/credentials
 sed -ie "s|SECRET_KEY|$SK|g"  ~/.aws/credentials
 sed -ie "s/ACCESS_KEY/$AK/g" ./variables.tf
 sed -ie "s|SECRET_KEY|$SK|g" ./variables.tf
+terraforrm init
+
 terraform apply -auto-approve
+
 
 
 

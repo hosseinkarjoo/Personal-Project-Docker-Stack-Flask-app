@@ -1,13 +1,4 @@
 #!/usr/bin/env bash
-#read -p 'access_key: ' AK
-#read -p 'secret_key: ' SK
-#read -p 'Private-Key (optional- if not provide the script will use your profile keys) :' PUB_KEY
-#read -p 'Public-Key (optional- if not provide the script will use your profile keys): ' PRV_KEY
-
-#if cat /etc/os-release | grep centos
-#then
-#  echo $(egrep '^(VERSION|NAME)=' /etc/os-release)
-
 echo 'PATH=$PATH:/usr/local/bin' >> ~/.bashrc && source ~/.bashrc
 if which terraform
 then
