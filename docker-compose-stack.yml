@@ -41,8 +41,8 @@ services:
         volumes:
             - mysqldb:/var/lib/mysql
         environment:
-            MYSQL_ROOT_PASSWORD_FILE: ./files/db_pass
-            MYSQL_PASSWORD_FILE: ./files/db_pass
+            MYSQL_ROOT_PASSWORD_FILE: /tmp/db_pass
+            MYSQL_PASSWORD_FILE: /tmp/db_pass
     devops-training-db-exporter:
         container_name: devops-training-db-exporter
         networks:
@@ -66,4 +66,4 @@ volumes:
 
 secrets:
     db_pass: 
-        file: ./files/db_pass
+        file: /tmp/db_pass
