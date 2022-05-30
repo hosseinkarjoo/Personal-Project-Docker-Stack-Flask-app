@@ -74,7 +74,7 @@ pipeline {
                     sh 'sed -ie "s/dockerAddr/${dockerAddr}/g" ./monitoring/datasource.yml'
                     sh 'sed -ie "s/localhost/${dockerAddr}/g" ./logging/kibana.yml'
                     sh 'sed -ie "s/DB_PASS_REPLACE/${db_pass}/g" ./app/main.py'
-                    sh 'sed -ie "s/ELASTIC-PASS-REPLACE/${elastic_pass}/g" ./logging/fluentd/etc/fluentd.cong'
+                    sh 'sed -ie "s/ELASTIC-PASS-REPLACE/${elastic_pass}/g" ./logging/fluentd.conf'
                 }
             }
         }
