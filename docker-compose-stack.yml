@@ -65,4 +65,5 @@ volumes:
     mysqldb:
 
 secrets:
-    db_pass: /run/secrets/db_pass
+    db_pass: 
+        file: /run/secrets/db_pass
