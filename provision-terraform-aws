@@ -14,10 +14,11 @@ sed -ie "s|SECRET_KEY|$SK|g"  ~/.aws/credentials
 sed -ie "s/ACCESS_KEY/$AK/g" ./variables.tf
 sed -ie "s|SECRET_KEY|$SK|g" ./variables.tf
 
+
 echo $db_pass > ./files/db_pass
 echo $grafana_pass > ./files/grafana_pass
 echo $elastic_pass > ./files/elastic_pass
-
+printf `cat ./files/db_pass` > ./files/db_pass
 terraforrm init
 
 terraform apply -auto-approve
