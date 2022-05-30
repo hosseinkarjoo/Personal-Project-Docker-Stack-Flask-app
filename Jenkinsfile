@@ -21,9 +21,9 @@ pipeline {
         }
         stage ('create secrets') {
             steps {
-                sh'printf $db_pass | docker secret create db_pass -'     
-                sh'printf $grafana_pass | docker secret create grafana_pass -'
-                sh'printf $elastic_pass | docker secret create elastic_pass -'
+                sh'openssl rand -base64 12 | docker secret create db_pass -'     
+                sh'openssl rand -base64 12 | docker secret create grafana_pass -'
+                sh'openssl rand -base64 12 | docker secret create elastic_pass -'
             }
         }
 
