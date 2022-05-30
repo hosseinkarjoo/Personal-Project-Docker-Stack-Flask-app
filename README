@@ -1,0 +1,8 @@
+it works on Centos!
+First Clone The Project
+Then Run THe Install-dependencies 
+and After run provision-terraform-aws.
+keep in mind that after two servers are up you should login to the Jenkins with Admin , 123@qwer credentails (because the jenkins server is from a template)
+and after that you have to update the Jenkins-SSH credentails with your server id_rsa key!
+then run the pipeline and after couple of minutes you have your aplication, monitoring and logging stack!
+the main web is at /pythonlogin.
