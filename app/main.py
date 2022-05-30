@@ -23,7 +23,7 @@ app.secret_key = 'your secret key'
 # Enter your database connection details below
 app.config['MYSQL_HOST'] = 'flask_app_devops-training-db'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ${db_pass}
+app.config['MYSQL_PASSWORD'] = DB_PASS_REPLACE
 app.config['MYSQL_DB'] = 'pythonlogin'
 
 # Intialize MySQL
