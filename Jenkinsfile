@@ -24,6 +24,8 @@ pipeline {
                 sh'printf $db_pass | docker secret create db_pass -'     
                 sh'printf $grafana_pass | docker secret create grafana_pass -'
                 sh'printf $elastic_pass | docker secret create elastic_pass -'
+            }
+        }
 
 //        stage ('image cleanup') {
  //           steps {
