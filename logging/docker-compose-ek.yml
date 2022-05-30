@@ -6,7 +6,7 @@ services:
     environment:
       - 'discovery.type=single-node'
       - 'ES_JAVA_OPTS=-Xmx256m -Xms256m'
-      - 'ELASTIC_PASSWORD=123@qwer'
+      - 'ELASTIC_PASSWORD=${elastic_pass}'
     ports:
       - "9200:9200"
       - "9300:9300"
