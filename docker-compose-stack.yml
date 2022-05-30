@@ -27,6 +27,8 @@ services:
             - '80:5000'
         networks:
             - main-net
+        volumes:
+            - ./app:/app
 #        logging:
 #          driver: fluentd
 #          options:
