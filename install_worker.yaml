@@ -6,6 +6,7 @@
       shell: |
          sed -ie "s/\/app/""/" ./outputs
          printf `cat outputs` > outputs
+         printf `cat ./files/db_pass` > db_pass
     - name: test 
       shell: printf `cat ./Docker-addr.txt` > Docker-addr.txt
 
