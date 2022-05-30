@@ -150,4 +150,12 @@
         src: ./Docker-addr.txt
         dest: /tmp/Docker-addr.txt
 
-#
+    - name: copy pass vars
+      copy:
+        path: ./files/{{item}}
+        dest: /tmp
+      with_items:
+        - db_pass
+        - grafana_pass
+        - elastic_pass
+

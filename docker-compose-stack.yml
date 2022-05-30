@@ -40,7 +40,9 @@ services:
             - main-net
         volumes:
             - mysqldb:/var/lib/mysql
-            
+        environment:
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_pass
+            MYSQL_PASSWORD_FILE: /run/secrets/db_pass
     devops-training-db-exporter:
         container_name: devops-training-db-exporter
         networks:
@@ -61,3 +63,6 @@ networks:
 
 volumes:
     mysqldb:
+
+secrets:
+    db_pass: /run/secrets/db_pass

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 read -p 'access_key: ' AK
 read -p 'secret_key: ' SK
+read -p 'db root pass: ' db_pass
+read -p 'admin grafana pass: ' grafana_pass
+read -p 'clastic elasticsearch & kibana pass: ' elastic_pass
 
 export ACCESS_KEY=$(echo $AK)
 export SECRET_KEY=$(echo $SK)
@@ -10,6 +13,11 @@ sed -ie "s/ACCESS_KEY/$AK/g" ~/.aws/credentials
 sed -ie "s|SECRET_KEY|$SK|g"  ~/.aws/credentials
 sed -ie "s/ACCESS_KEY/$AK/g" ./variables.tf
 sed -ie "s|SECRET_KEY|$SK|g" ./variables.tf
+
+echo $db_pass > ./files/db_pass
+echo $grafana_pass > ./files/grafana_pass
+echo $elastic_pass > ./files/elastic_pass
+
 terraforrm init
 
 terraform apply -auto-approve

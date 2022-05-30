@@ -3,6 +3,9 @@ pipeline {
 //        regAddr = '780067648615.dkr.ecr.us-east-1.amazonaws.com'
         regAddr = readFile '/tmp/outputs'
         dockerAddr = readFile '/tmp/Docker-addr.txt'
+        db_pass = readFile '/tmp/db_pass'
+        grafan_pass = readFile '/tmp/grafana_pass'
+        elastic_pass = readFile '/tmp/elastic_pass'
     }
     agent {
         node {
@@ -16,6 +19,12 @@ pipeline {
                 sh'echo ${regAddr}'
             }
         }
+        stage ('create secrets')
+            steps {
+                sh'printf $db_pass | docker secret create db_pass -'     
+                sh'printf $grafana_pass | docker secret create grafana_pass -'
+                sh'printf $elastic_pass | docker secret create elastic_pass -'
+
 //        stage ('image cleanup') {
  //           steps {
   //              script {
