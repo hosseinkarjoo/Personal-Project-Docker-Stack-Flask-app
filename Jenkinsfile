@@ -19,13 +19,13 @@ pipeline {
                 sh'echo ${regAddr}'
             }
         }
-        stage ('create secrets') {
-            steps {
-                sh'openssl rand -base64 12 | docker secret create db_pass -'     
-                sh'openssl rand -base64 12 | docker secret create grafana_pass -'
-                sh'openssl rand -base64 12 | docker secret create elastic_pass -'
-            }
-        }
+//        stage ('create secrets') {
+ //           steps {
+  /              sh'openssl rand -base64 12 | docker secret create db_pass -'     
+  //              sh'openssl rand -base64 12 | docker secret create grafana_pass -'
+   //             sh'openssl rand -base64 12 | docker secret create elastic_pass -'
+    //        }
+     //   }
 
 //        stage ('image cleanup') {
  //           steps {
