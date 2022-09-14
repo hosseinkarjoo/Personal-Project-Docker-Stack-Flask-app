@@ -1,6 +1,43 @@
-test5
-6
-677
-www
-test
-ww
+projects:
+  - project_id: mxm-hossein-project1
+    owners: 
+      - hossein@meerantix.com
+      - fabio@merantix.com
+      - thomas@erantix.com
+    cicd_secrets_accessors: 
+      - mxm-hossein-project1.mx_project1.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-project1.mx_project1.2@cloudservices.gserviceaccount.com
+    artifact_registry_accessors: 
+      - mxm-hossein-project1.mx_project1.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-project1.mx_project1.2@cloudservices.gserviceaccount.com
+    deploy_docs: true
+    subdomain: some_tool.subdomain.merantix-momentum.coud
+    ingress: false
+  - project_id: mxm-hossein-projec2
+    owners: 
+      - hossein@merantix.com
+      - fabio@merantix.com
+      - thomas@erantix.com
+    cicd_secrets_accessors: 
+      - mxm-hossein-project2.mx_project2.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-project2.mx_project2.2@cloudservices.gserviceaccount.com
+    artifact_registry_accessors: 
+      - mxm-hossein-project2.mx_project2.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-sandbox.mx_project2.2@cloudservices.gserviceaccount.com
+    deploy_docs: true
+    subdomain: some_tool.subdomain.merantix-momentum.coud
+    ingress: false
+  - project_id: mxm-hossein-project3
+    owners: 
+      - hossein@merantix.com
+      - fabio@merantix.com
+      - thomas@erantix.com
+    cicd_secrets_accessors: 
+      - mxm-hossein-project3.mx_project3.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-project3.mx_project3.2@cloudservices.gserviceaccount.com
+    artifact_registry_accessors: 
+      - mxm-hossein-project3.mx_project3.1@cloudservices.gserviceaccount.com
+      - mxm-hossein-project3.mx_project3.2@cloudservices.gserviceaccount.com
+    deploy_docs: true
+    subdomain: some_tool.subdomain.merantix-momentum.coud
+    ingress: false
