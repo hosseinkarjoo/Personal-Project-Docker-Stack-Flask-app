@@ -41,4 +41,3 @@ projects:
     deploy_docs: true
     subdomain: some_tool.subdomain.merantix-momentum.coud
     ingress: false
-    1
