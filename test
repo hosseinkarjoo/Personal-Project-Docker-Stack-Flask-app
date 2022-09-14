@@ -40,4 +40,4 @@ projects:
       - mxm-hossein-project3.mx_project3.2@cloudservices.gserviceaccount.com
     deploy_docs: true
     subdomain: some_tool.subdomain.merantix-momentum.coud
-    ingress: false
+    ingress: false1
