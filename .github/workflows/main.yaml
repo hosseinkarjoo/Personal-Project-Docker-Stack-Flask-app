@@ -1,18 +1,14 @@
-name: Run Tests
+name: Like pizza
 
 on:
-  pull_request:
-    branches:
-      - master
+  issue_comment:
+    types:
+      - created
 
 jobs:
-  main_trigger:
-    name:
+  like-pizza:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    if: "contains(github.event.comment.body, 'hossein')"
+    if: ${{ github.event.comment.body == 'hossein'}}
     steps:
       - name: Run tests
         run: echo running tests
