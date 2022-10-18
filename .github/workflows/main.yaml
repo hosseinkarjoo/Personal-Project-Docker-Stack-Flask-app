@@ -6,7 +6,7 @@ on:
 jobs:
   test-commit:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, '/support')
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/support')
     steps:
       - name: Run tests
         run: echo running tests
