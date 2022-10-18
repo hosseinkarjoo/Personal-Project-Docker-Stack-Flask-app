@@ -1,0 +1,13 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    if: ${{ contains(github.event.head_commit.message, '#docs') }}
+    steps:
+      - name: Run tests
+        run: echo running tests
