@@ -6,7 +6,6 @@ on:
       - master
 
 jobs:
-jobs:
   main_trigger:
     name:
     runs-on: ubuntu-latest
